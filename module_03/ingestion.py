@@ -89,6 +89,7 @@ CHUNK_SIZE = 600
 OVERLAP = 150
 
 
+
 # ====================================================================
 #  НАРЕЗКА НА ЧАНКИ
 # ====================================================================
@@ -113,7 +114,20 @@ def chunk_text(text: str, size: int, overlap: int) -> list:
     Проверить себя: chunk_text('абвгд'*100, 200, 50) -> 4 куска
     длиной 200, 200, 200 и 50 символов.
     """
-    return [text]
+
+    if overlap >= size:
+        raise ValueError(f"overlap: {overlap} должен быть меньше size: {size}")
+    
+    step = size - overlap
+    start = 0
+    text_chunks = []
+    while(start < len(text)):
+        chunk = text[start:start + size]
+        if chunk.strip():
+            text_chunks.append(chunk)
+        start += step
+
+    return text_chunks
 
 
 # ====================================================================
